@@ -1,8 +1,9 @@
 import psycopg2
 from dotenv import load_dotenv
 import os
+from pathlib import Path
 
-load_dotenv()
+load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
 
 class DBCreator:
