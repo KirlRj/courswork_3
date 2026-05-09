@@ -45,7 +45,9 @@ def main():
             print("\n--- Все вакансии ---")
             results = db.get_all_vacancies()
             for company, title, salary_from, salary_to, currency, url in results:
-                print(f"{company} | {title} | от {salary_from} до {salary_to} {currency or ''} | {url}")
+                print(
+                    f"{company} | {title} | от {salary_from} до {salary_to} {currency or ''} | {url}"
+                )
 
         elif choice == "3":
             print("\n--- Средняя зарплата ---")
@@ -56,7 +58,9 @@ def main():
             print("\n--- Вакансии с зарплатой выше средней ---")
             results = db.get_vacancies_with_higher_salary()
             for company, title, salary_from, salary_to, currency, url in results:
-                print(f"{company} | {title} | от {salary_from} до {salary_to} {currency or ''} | {url}")
+                print(
+                    f"{company} | {title} | от {salary_from} до {salary_to} {currency or ''} | {url}"
+                )
 
         elif choice == "5":
             keyword = input("Введите ключевое слово для поиска: ").strip()
@@ -64,7 +68,9 @@ def main():
             results = db.get_vacancies_with_keyword(keyword)
             if results:
                 for company, title, salary_from, salary_to, currency, url in results:
-                    print(f"{company} | {title} | от {salary_from} до {salary_to} {currency or ''} | {url}")
+                    print(
+                        f"{company} | {title} | от {salary_from} до {salary_to} {currency or ''} | {url}"
+                    )
             else:
                 print("Вакансии не найдены.")
 

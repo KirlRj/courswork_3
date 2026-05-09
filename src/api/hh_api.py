@@ -1,6 +1,7 @@
 # import requests
-from pathlib import Path
 import json
+from pathlib import Path
+
 
 class HHAPI:
     # BASE_URL = "https://api.hh.ru"

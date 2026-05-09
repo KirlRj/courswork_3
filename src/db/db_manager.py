@@ -1,7 +1,8 @@
-import psycopg2
-from dotenv import load_dotenv
 import os
 from pathlib import Path
+
+import psycopg2
+from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
@@ -81,7 +82,8 @@ class DBManager:
 
     def get_vacancies_with_keyword(self, keyword: str) -> list:
         """Функция получения списка всех вакансий, в названии которых содержатся переданные в метод слова, например python."""
-        self.cur.execute("""
+        self.cur.execute(
+            """
             SELECT
                 e.name AS company,
                 v.title AS vacancy,
@@ -94,7 +96,8 @@ class DBManager:
             WHERE v.title ILIKE %s
             ORDER BY e.name
         """,
-        (f"%{keyword}%",))
+            (f"%{keyword}%",),
+        )
         return self.cur.fetchall()
 
     def close(self):
