@@ -4,6 +4,8 @@ from pathlib import Path
 
 
 class HHAPI:
+    """Класс для получения данных о работодателях и вакансиях с hh.ru"""
+
     # BASE_URL = "https://api.hh.ru"
     # EMPLOYER_IDS = [
     #     "1740",  # Яндекс

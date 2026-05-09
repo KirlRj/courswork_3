@@ -6,10 +6,11 @@ from src.db.db_manager import DBManager
 def main():
     print("=== Курсовая работа. Работа с БД ===\n")
 
+    DBCreator.create_database()
+
     print("Получаем данные с hh.ru...")
     api = HHAPI()
     employers, vacancies = api.get_all_employers_and_vacancies()
-    print(employers[0])
     print(f"Получено работодателей: {len(employers)}")
     print(f"Получено вакансий: {len(vacancies)}\n")
 

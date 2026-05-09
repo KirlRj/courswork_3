@@ -8,6 +8,8 @@ load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
 
 class DBManager:
+    """Класс для работы с данными в БД PostgreSQL"""
+
     def __init__(self):
         """Определение переменных для подключения к БД"""
         self.conn = psycopg2.connect(
@@ -101,5 +103,6 @@ class DBManager:
         return self.cur.fetchall()
 
     def close(self):
+        """Закрытие курсора и соединения с БД"""
         self.cur.close()
         self.conn.close()

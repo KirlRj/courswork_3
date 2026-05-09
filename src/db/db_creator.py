@@ -8,6 +8,8 @@ load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
 
 class DBCreator:
+    """Класс для создания и заполнения таблиц в БД PostgreSQL"""
+
     def __init__(self):
         """Определение переменных для подключения к БД"""
         self.conn = psycopg2.connect(
@@ -19,7 +21,34 @@ class DBCreator:
         )
         self.cur = self.conn.cursor()
 
-    def create_tables(self):
+    @staticmethod
+    def create_database() -> None:
+        """Автоматическое создание БД если она не существует"""
+        conn = psycopg2.connect(
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
+            dbname="postgres",
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+        )
+        conn.autocommit = True
+        cur = conn.cursor()
+
+        db_name = os.getenv("DB_NAME")
+
+        cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (db_name,))
+        exists = cur.fetchone()
+
+        if not exists:
+            cur.execute(f"CREATE DATABASE {db_name}")
+            print(f"База данных '{db_name}' создана.")
+        else:
+            print(f"База данных '{db_name}' уже существует.")
+
+        cur.close()
+        conn.close()
+
+    def create_tables(self) -> None:
         """Создание таблиц"""
         self.cur.execute("""
             CREATE TABLE IF NOT EXISTS employers (
@@ -46,14 +75,14 @@ class DBCreator:
         self.conn.commit()
         print("Таблицы успешно созданы.")
 
-    def drop_tables(self):
+    def drop_tables(self) -> None:
         """Функция удаления таблицы, если необходимо"""
         self.cur.execute("DROP TABLE IF EXISTS vacancies CASCADE")
         self.cur.execute("DROP TABLE IF EXISTS employers CASCADE")
         self.conn.commit()
         print("Таблицы удалены.")
 
-    def fill_employers(self, employers: list):
+    def fill_employers(self, employers: list) -> None:
         """Функция заполнения таблицы работодателей"""
         for employer in employers:
             self.cur.execute(
@@ -73,7 +102,7 @@ class DBCreator:
         self.conn.commit()
         print(f"Добавлено работодателей: {len(employers)}")
 
-    def fill_vacancies(self, vacancies: list):
+    def fill_vacancies(self, vacancies: list) -> None:
         """Функция заполнения таблицы вакансий"""
         for vacancy in vacancies:
 
@@ -108,6 +137,7 @@ class DBCreator:
         self.conn.commit()
         print(f"Добавлено вакансий: {len(vacancies)}")
 
-    def close(self):
+    def close(self) -> None:
+        """Закрытие курсора и соединения с БД"""
         self.cur.close()
         self.conn.close()
