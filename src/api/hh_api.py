@@ -1,6 +1,7 @@
 # import requests
 import json
 from pathlib import Path
+from src.utils.file_reader import FileReader
 
 
 class HHAPI:
@@ -41,8 +42,8 @@ class HHAPI:
 
     def get_all_employers_and_vacancies(self) -> tuple:
         """Получение всех работодателей и вакансии"""
-        with open(self.DATA_FILE, encoding="utf-8") as f:
-            data = json.load(f)
+        reader = FileReader(self.DATA_FILE)
+        data = reader.read_json()
         all_vacancies = data.get("items", [])
         employers_dict = {}
         for vacancy in all_vacancies:
