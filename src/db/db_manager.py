@@ -102,7 +102,7 @@ class DBManager:
         )
         return self.cur.fetchall()
 
-    def close(self):
+    def close(self) -> None:
         """Закрытие курсора и соединения с БД"""
         self.cur.close()
         self.conn.close()
